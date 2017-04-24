@@ -15,7 +15,7 @@ namespace TaskIt_2017
             Content = new StackLayout
             {
                 Children = {
-                    new Label { Text = "Hello Page" }
+                    new Label { Text = "Task View Page!" }
                 }
             };
         }
