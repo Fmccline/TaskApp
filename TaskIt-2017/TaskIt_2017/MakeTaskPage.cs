@@ -19,25 +19,17 @@ namespace TaskIt_2017
         public MakeTaskPage(ObservableCollection<TaskItTask> tasks)
         {
             tasks_ = tasks;
-            name_entry_ = make_name_entry();
-            description_entry_ = make_description_entry();
+            name_entry_ = make_entry("Task Name");
+            description_entry_ = make_entry("Task Description");
 
             Content = main_layout();
         }
 
-        private Entry make_description_entry()
+        private Entry make_entry(string placeholder)
         {
             return new Entry
             {
-                Placeholder = "Task description"
-            };
-        }
-
-        private Entry make_name_entry()
-        {
-            return new Entry
-            {
-                Placeholder = "Task Name"
+                Placeholder = placeholder
             };
         }
 
