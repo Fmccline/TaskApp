@@ -7,7 +7,7 @@ using Xamarin.Forms;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 
-namespace TaskIt_2017
+namespace TaskIt
 {
     public partial class TaskListPage : ContentPage
     {

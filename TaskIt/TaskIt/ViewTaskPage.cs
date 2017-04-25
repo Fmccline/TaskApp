@@ -6,22 +6,21 @@ using System.Text;
 
 using Xamarin.Forms;
 
-namespace TaskIt_2017
+namespace TaskIt
 {
     public class ViewTaskPage : ContentPage
     {
         private TaskItTask task_;
 
-        public ViewTaskPage(TaskItTask t)
+        public ViewTaskPage(TaskItTask task)
         {
-            task_ = t;
+            task_ = task;
 
             Content = new StackLayout
             {
                 Children = {
-                    new Label { Text = "Name: " + task_.name },
-                    new Label { Text = "Description: " + task_.description },
-                    new Label { Text = "WOW" }
+                    new Label { Text = task_.name },
+                    new Label { Text = task_.description}
                 }
             };
         }
