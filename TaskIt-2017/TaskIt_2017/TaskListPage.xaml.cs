@@ -40,7 +40,7 @@ namespace TaskIt_2017
 
             return stack_layout;
         }
-
+    
         private ListView make_tasks_lv()
         {       
             ListView tasks_lv = new ListView();
