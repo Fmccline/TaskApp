@@ -10,19 +10,19 @@ namespace TaskIt_2017
 {
     public partial class App : Application
     {
-        private readonly SQLiteAsyncConnection database_;
+        static TaskItTaskDatabase database_;
 
-        //public static TaskItTaskDatabase database
-        //{
-        //    get
-        //    {
-        //        if (database_ == null)
-        //        {
-        //            database_ = new TaskItTaskDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("TaskItSQLite.db3"));
-        //        }
-        //        return database;
-        //    }
-        //}
+        public static TaskItTaskDatabase database
+        {
+            get
+            {
+                if (database_ == null)
+                {
+                    database_ = new TaskItTaskDatabase(DependencyService.Get<IFileHelper>().get_local_file_path("TaskItSQLite.db3"));
+                }
+                return database_;
+            }
+        }
 
         public App()
         {

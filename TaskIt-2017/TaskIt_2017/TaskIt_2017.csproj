@@ -38,6 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IFileHelper.cs" />
     <Compile Include="TaskItTaskDatabase.cs" />
     <Compile Include="ViewTaskPage.cs" />
     <Compile Include="TaskItTask.cs" />

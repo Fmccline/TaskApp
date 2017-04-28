@@ -7,7 +7,7 @@ using SQLite;
 
 namespace TaskIt_2017
 {
-    class TaskItTaskDatabase
+    public class TaskItTaskDatabase
     {
         readonly SQLiteAsyncConnection database;
 
