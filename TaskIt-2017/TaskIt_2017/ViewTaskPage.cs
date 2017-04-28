@@ -21,7 +21,6 @@ namespace TaskIt_2017
                 Children = {
                     new Label { Text = "Name: " + task_.name },
                     new Label { Text = "Description: " + task_.description },
-                    new Label { Text = "WOW" }
                 }
             };
         }
