@@ -11,16 +11,18 @@ namespace TaskIt_2017
 {
     public partial class TaskListPage : ContentPage
     {
-        private ObservableCollection<TaskItTask> tasks_oc_;
+        private ListView tasks_lv_;
 
         public TaskListPage()
         {
             InitializeComponent();
 
-            // Initialize the list of tasks
-            tasks_oc_ = make_tasks_oc();
-
             Content = make_task_layout();
+        }
+
+        protected override async void OnAppearing()
+        {
+            tasks_lv_.ItemsSource = await App.database.get_tasks_async();
         }
 
         // Creates the layout for the page
@@ -40,19 +42,18 @@ namespace TaskIt_2017
 
             return stack_layout;
         }
-
+    
         private ListView make_tasks_lv()
         {       
-            ListView tasks_lv = new ListView();
-            tasks_lv.ItemsSource = tasks_oc_;
-            tasks_lv.ItemTemplate = new DataTemplate(make_task_vc);
-            tasks_lv.ItemSelected += async (sender, e) =>
+            tasks_lv_ = new ListView();
+            tasks_lv_.ItemTemplate = new DataTemplate(make_task_vc);
+            tasks_lv_.ItemSelected += async (sender, e) =>
             {
                 TaskItTask selected_task = (TaskItTask)e.SelectedItem;
                 await Navigation.PushAsync(new ViewTaskPage(selected_task));
             };
 
-            return tasks_lv;
+            return tasks_lv_;
         }
 
         private Button make_add_task_button()
@@ -81,17 +82,6 @@ namespace TaskIt_2017
             };
         }
 
-        private ObservableCollection<TaskItTask> make_tasks_oc()
-        {
-            return new ObservableCollection<TaskItTask>
-            {
-                new TaskItTask("Finish writing tasks","Finish this shiz"),
-                new TaskItTask("Make a useable database for tasks"),
-                new TaskItTask("Do some other stuff","Like what though?"),
-                new TaskItTask("Write more code."),
-            };
-        }
-
         private ViewCell make_task_vc()
         {
             Label task_name = new Label();
@@ -103,7 +93,7 @@ namespace TaskIt_2017
 
         private async void add_task_button_clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MakeTaskPage(tasks_oc_));
+            await Navigation.PushAsync(new MakeTaskPage());
         }
 
     }
