@@ -11,7 +11,7 @@
 namespace TaskIt_2017 {
     
     
-    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("D:\\Computer Science\\Fmccline\\TaskApp\\TaskIt-2017\\TaskIt_2017\\TaskListPage.xaml")]
+    [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("C:\\Users\\Minion\\Documents\\CS\\TaskApp\\TaskIt-2017\\TaskIt_2017\\TaskListPage.xaml")]
     public partial class TaskListPage : global::Xamarin.Forms.ContentPage {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
