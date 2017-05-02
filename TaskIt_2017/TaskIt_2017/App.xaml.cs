@@ -27,7 +27,7 @@ namespace TaskIt_2017
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new TaskListPage());
+            MainPage = new NavigationPage(new MainPage());
         }
 
 

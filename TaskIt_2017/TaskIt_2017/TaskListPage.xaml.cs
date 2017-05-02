@@ -24,16 +24,19 @@ namespace TaskIt_2017
         {
             tasks_lv_.ItemsSource = await App.database.get_tasks_async();
         }
-
+      
         // Creates the layout for the page
         // Includes: SearchBar, ListView for tasks, Button for adding tasks
         private StackLayout make_task_layout()
         {
             StackLayout stack_layout = new StackLayout
             {
+               
+
                 Orientation = StackOrientation.Vertical,
                 Children =
                 {
+                    
                     make_search_bar(),
                     make_tasks_lv(),
                     make_add_task_button(),

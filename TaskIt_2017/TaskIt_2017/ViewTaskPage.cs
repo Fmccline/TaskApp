@@ -51,7 +51,8 @@ namespace TaskIt_2017
 		private async void delete_task(object sender, EventArgs e)
 		{
 			await App.database.delete_task_async(task_);
-			await Navigation.PopAsync();
+            await Navigation.PopAsync();
+                
 		}
 	}
 }
