@@ -52,7 +52,7 @@ namespace TaskIt_2017
 		{
 			await App.database.delete_task_async(task_);
             await Navigation.PopAsync();
-                
+            
 		}
 	}
 }

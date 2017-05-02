@@ -39,7 +39,7 @@ namespace TaskIt_2017
                 HorizontalOptions = LayoutOptions.Center
             };
 
-            task.Clicked += async (object sender, EventArgs args) =>
+            calendar.Clicked += async (object sender, EventArgs args) =>
             {
                 await Navigation.PushAsync(new CalendarPage());
             };
