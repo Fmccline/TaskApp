@@ -22,6 +22,11 @@ namespace TaskIt_2017
             return database.Table<TaskItTask>().ToListAsync();
         }
 
+        public Task<List<TaskItTask>> get_tasks_by_search(string i)
+        {
+            return database.QueryAsync<TaskItTask>("SELECT * FROM [TaskItTask] WHERE [name] = "+i);
+        }
+
         public Task<List<TaskItTask>> get_tasks_not_done_async()
         {
             return database.QueryAsync<TaskItTask>("SELECT * FROM [TaskItTask] WHERE [complete] = 0");
