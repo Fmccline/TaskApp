@@ -79,7 +79,7 @@ namespace TaskIt_2017
 			};
 		}
 
-		private void toggle_due_date_switch(object sender, ToggledEventArgs e)
+		private void toggle_add_due_date(object sender, ToggledEventArgs e)
 		{
 			if (e.Value)
 			{
@@ -97,7 +97,7 @@ namespace TaskIt_2017
 		{
 			var due_date_switch = new Switch();
 			due_date_switch.IsToggled = false;
-			due_date_switch.Toggled += toggle_due_date_switch;
+			due_date_switch.Toggled += toggle_add_due_date;
 			return due_date_switch;
 		}
 
@@ -112,9 +112,9 @@ namespace TaskIt_2017
 
 		private TimePicker make_due_time()
 		{
-			return new TimePicker
-			{
-				Time = DateTime.Now.TimeOfDay,
+            return new TimePicker
+            {
+                Time = new TimeSpan(6, 0, 0),
 			};
 		}
 
@@ -123,21 +123,6 @@ namespace TaskIt_2017
 			return new Entry
 			{
 				Placeholder = placeholder
-			};
-		}
-
-		private StackLayout main_layout()
-		{
-			Button add_task_button = make_add_task_button();
-
-			return new StackLayout
-			{
-				Children =
-				{
-					name_entry_,
-					description_entry_,
-					add_task_button,
-				}
 			};
 		}
 
@@ -154,18 +139,39 @@ namespace TaskIt_2017
 			return return_button;
 		}
 
+        // set_task
+        // Set a TaskItTask to the entry name, 
+        // possible description, and possible due date
+        private void set_task(TaskItTask task)
+        {
+            task.name = name_entry_.Text;
+            if (!String.IsNullOrEmpty(description_entry_.Text))
+            {
+                task.description = description_entry_.Text;
+            }
+            if (due_date_switch_.IsToggled)
+            {
+                task.date_due = due_date_entry_.Date + due_time_entry_.Time;
+            }
+        }
+
+        // add_task_button_clicked
+        // If the task has a name: create a new task, add it to the database
+        // Otherwise: display an alert asking to name the task
 		private async void add_task_button_clicked(object sender, EventArgs e)
 		{
-			TaskItTask new_task = new TaskItTask();
-			new_task.name = name_entry_.Text;
-			new_task.description = description_entry_.Text;
-			if (due_date_switch_.IsToggled)
-			{
-				new_task.date_due = due_date_entry_.Date + due_time_entry_.Time;
-			}
+            if (!String.IsNullOrEmpty(name_entry_.Text))
+            {
+                TaskItTask new_task = new TaskItTask();
+                set_task(new_task);
 
-			await App.database.save_task_async(new_task);
-			await DisplayAlert("Task Added", "The task has been created!", "Right on!");
+                await App.database.save_task_async(new_task);
+                await DisplayAlert("Task Added", "The task has been created!", "Right on!");
+            }
+            else
+            {
+                await DisplayAlert("Oops", "Please enter a name for the Task!", "Righto");
+            }
 		}
 	}
 }

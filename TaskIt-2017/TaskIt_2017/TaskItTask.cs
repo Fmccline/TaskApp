@@ -38,10 +38,16 @@ namespace TaskIt_2017
         private string get_date_string(DateTime date)
         {
             string day = date.Day.ToString();
-            string year = (date.Year != DateTime.Now.Year) ? date.Year.ToString() : "";
+            string year = (date.Year != DateTime.Now.Year) ? ", " + date.Year.ToString() : "";
             string month = CultureInfo.CurrentCulture.
                             DateTimeFormat.GetMonthName(date.Month);
-            return month + " " + day + " " + year;
+            string date_string = month + " " + day + year;
+
+            string hour = date.Hour.ToString();
+            string minute = date.Minute >= 10 ? date.Minute.ToString() : "0" + date.Minute.ToString();
+            string time = hour + ":" + minute;
+
+            return time + " " + date_string;
         }
 
 		private Label make_bold_label(string text)
