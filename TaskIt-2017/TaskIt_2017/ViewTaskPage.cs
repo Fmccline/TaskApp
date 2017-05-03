@@ -25,22 +25,11 @@ namespace TaskIt_2017
 
         private void add_task_attributes_to_layout(StackLayout layout)
         {
-            var display_attributes = task_.get_display_attributes();
-            foreach (KeyValuePair<string, string> kvp in display_attributes)
+			foreach (var label in task_.get_display_labels())
             {
-                Label attribute_name = make_label(kvp.Key);
-                attribute_name.FontAttributes = FontAttributes.Bold;
-                Label attribute_value = make_label(kvp.Value);
-
-                layout.Children.Add(attribute_name);
-                layout.Children.Add(attribute_value);
+          		layout.Children.Add(label);
             }
         }
-
-		private Label make_label(string text)
-		{
-			return new Label { Text = text };
-		}
 
 		private void add_delete_button_to_layout(StackLayout layout)
 		{

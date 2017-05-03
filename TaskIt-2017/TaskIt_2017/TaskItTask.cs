@@ -1,51 +1,60 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
+using Xamarin.Forms;
 
 namespace TaskIt_2017
 {
-    public class TaskItTask
-    {
-        public TaskItTask() : this("Task", "Task description")
-        {}
-    
-        public TaskItTask(string name) : this(name,name)
-        {}
+	public class TaskItTask
+	{
+		public TaskItTask()
+		{
+			date_created = DateTime.Now;
+		}
 
-        public TaskItTask(string name, string description)
-        {
-            this.name = name;
-            this.description = description;
-            complete = false;
-            date_created = DateTime.Now;
-        }
+		public List<Label> get_display_labels()
+		{
+			var displays = new List<Label>();
 
-        public List<KeyValuePair<string, string>> get_display_attributes()
-        {
-            var return_list = new List<KeyValuePair<string, string>>();
+			displays.Add(make_bold_label("Name"));
+			displays.Add(make_label(name));
 
-            return_list.Add(make_kvp("Name", name));
-            return_list.Add(make_kvp("Description", description));
-            return_list.Add(make_kvp("Date Created", date_created.ToString()));
-            if (date_due != DateTime.MinValue)
-            {
-                return_list.Add(make_kvp("Date Due", date_due.ToString()));
-            }
+			displays.Add(make_bold_label("Description"));
+			displays.Add(make_label(description));
 
-            return return_list;
-        }
+			displays.Add(make_bold_label("Date Created"));
+			displays.Add(make_label(date_created.ToString()));
 
-        private KeyValuePair<string,string> make_kvp(string key, string value)
-        {
-            return new KeyValuePair<string, string>(key, value);
-        }
+			if (date_due != DateTime.MinValue)
+			{
+				displays.Add(make_bold_label("Date Due"));
+				displays.Add(make_label(date_due.ToString()));
+			}
+
+			return displays;
+		}
+
+		private Label make_bold_label(string text)
+		{
+			return new Label { Text = text, FontAttributes = FontAttributes.Bold };
+		}
+
+		private Label make_label(string text)
+		{
+			return new Label { Text = text };
+		}
+
+		private KeyValuePair<string, string> make_kvp_s(string key, string value)
+		{
+			return new KeyValuePair<string,string>(key,value);
+		}
 
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
-        public string name { get; private set; }
-        public string description { get; private set; }
+        public string name { get; set; }
+        public string description { get; set; }
         public bool complete { get; set; }
-        public DateTime date_created { get; set; }
+        public DateTime date_created { get; }
         public DateTime date_due { get; set; }
 
     }
