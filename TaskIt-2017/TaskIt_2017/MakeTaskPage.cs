@@ -13,6 +13,7 @@ namespace TaskIt_2017
 	{
 		private StackLayout main_layout_;
 		private StackLayout due_date_layout_;
+        private StackLayout description_layout_;
 
 		private Entry name_entry_;
 		private Editor description_entry_;
@@ -26,22 +27,38 @@ namespace TaskIt_2017
 			main_layout_ = new StackLayout();
 
 			name_entry_ = make_entry("Task Name");
-			description_entry_ = make_editor("Task Description");
-			due_date_switch_ = make_due_date_switch();
+            description_entry_ = new Editor();
+
+            due_date_switch_ = make_due_date_switch();
 			due_date_entry_ = make_due_date();
 			due_time_entry_ = make_due_time();
 
+            description_layout_ = make_description_layout();
 			due_date_layout_ = make_due_date_layout();
 
 			main_layout_.Children.Add(name_entry_);
-			main_layout_.Children.Add(description_entry_);
+			main_layout_.Children.Add(description_layout_);
 			main_layout_.Children.Add(due_date_layout_);
-
 			main_layout_.Children.Add(make_add_task_button());
 
 			Content = main_layout_;
 		}
 
+        private StackLayout make_description_layout()
+        {
+            return new StackLayout
+            {
+                Children =
+                {
+                    new Label
+                    {
+                        Text = "Description",
+                        FontAttributes = FontAttributes.Bold
+                    },
+                    description_entry_,
+                }
+            };
+        }
 
 		private StackLayout make_due_date_layout()
 		{
@@ -98,14 +115,6 @@ namespace TaskIt_2017
 			return new TimePicker
 			{
 				Time = DateTime.Now.TimeOfDay,
-			};
-		}
-
-		private Editor make_editor(string title)
-		{
-			return new Editor
-			{
-				Text = title
 			};
 		}
 
