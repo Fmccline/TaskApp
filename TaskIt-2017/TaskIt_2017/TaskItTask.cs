@@ -1,9 +1,6 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TaskIt_2017
 {
@@ -20,6 +17,27 @@ namespace TaskIt_2017
             this.name = name;
             this.description = description;
             complete = false;
+            date_created = DateTime.Now;
+        }
+
+        public List<KeyValuePair<string, string>> get_display_attributes()
+        {
+            var return_list = new List<KeyValuePair<string, string>>();
+
+            return_list.Add(make_kvp("Name", name));
+            return_list.Add(make_kvp("Description", description));
+            return_list.Add(make_kvp("Date Created", date_created.ToString()));
+            if (date_due != DateTime.MinValue)
+            {
+                return_list.Add(make_kvp("Date Due", date_due.ToString()));
+            }
+
+            return return_list;
+        }
+
+        private KeyValuePair<string,string> make_kvp(string key, string value)
+        {
+            return new KeyValuePair<string, string>(key, value);
         }
 
         [PrimaryKey, AutoIncrement]
@@ -27,5 +45,8 @@ namespace TaskIt_2017
         public string name { get; private set; }
         public string description { get; private set; }
         public bool complete { get; set; }
+        public DateTime date_created { get; set; }
+        public DateTime date_due { get; set; }
+
     }
 }
