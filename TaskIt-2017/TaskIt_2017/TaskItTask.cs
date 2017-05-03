@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Xamarin.Forms;
 
 namespace TaskIt_2017
@@ -23,16 +24,25 @@ namespace TaskIt_2017
 			displays.Add(make_label(description));
 
 			displays.Add(make_bold_label("Date Created"));
-			displays.Add(make_label(date_created.ToString()));
+            displays.Add(make_label(get_date_string(date_created)));
 
-			if (date_due != DateTime.MinValue)
+            if (date_due != DateTime.MinValue)
 			{
 				displays.Add(make_bold_label("Date Due"));
-				displays.Add(make_label(date_due.ToString()));
+				displays.Add(make_label(get_date_string(date_due)));
 			}
 
 			return displays;
 		}
+
+        private string get_date_string(DateTime date)
+        {
+            string day = date.Day.ToString();
+            string year = (date.Year != DateTime.Now.Year) ? date.Year.ToString() : "";
+            string month = CultureInfo.CurrentCulture.
+                            DateTimeFormat.GetMonthName(date.Month);
+            return month + " " + day + " " + year;
+        }
 
 		private Label make_bold_label(string text)
 		{
