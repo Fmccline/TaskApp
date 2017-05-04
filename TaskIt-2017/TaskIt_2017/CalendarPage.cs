@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 
 namespace TaskIt_2017
@@ -15,13 +16,26 @@ namespace TaskIt_2017
         {
             Title = "Calendar";
 
-            var month = DateTime.Now.ToString("M");       
-            var today = DateTime.Now.DayOfWeek.ToString();
+            int startDayOffset=0;
+            var startDay = DateTime.Now.AddDays(-DateTime.Now.Day+1);
+            List<string> d = new List<string>{ "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday" };
+            foreach(var ds in d)
+            {               
+                if (startDay.DayOfWeek.ToString() == ds)
+                    break;
+                startDayOffset++;
+            }
+            var month = DateTime.Now.Month;
+            var year = DateTime.Now.Year;
+            int monthLength = DateTime.DaysInMonth(year, month);   
+            var date = DateTime.Now.ToString("M");       
+        
 
             //this needs platform screen size functions I think
             //need to read landscape/normal view too
             //windows default
-
+          //  int wid = Convert.ToInt32(CalendarPage.WidthProperty.ToString());
+          //  int hei = Convert.ToInt32(CalendarPage.HeightProperty.ToString());
             int ht = 100, wd = 100;
             int pad = 10, space = 5;
 
@@ -60,13 +74,26 @@ namespace TaskIt_2017
                     var day = 7 * y + x;
 
                     grid.RowDefinitions.Add(new RowDefinition { Height = ht });
-                    if (day <= 31 && day > 0)
-                        grid.Children.Add(new Label
+                    var label = new Label();
+
+                    DateTime taskDate= startDay.AddDays(day - startDayOffset);
+
+                    populate(label, taskDate);
+    
+
+                    if (day - startDayOffset < monthLength && day >= startDayOffset)
+                    {
+                        label.Text = (day - startDayOffset + 1).ToString() + "\n";
+                        label.Font = Font.SystemFontOfSize(NamedSize.Micro);
+
+                        if (day == DateTime.Now.Day)
                         {
-                            Text = day.ToString(),
-                            Font = Font.SystemFontOfSize(NamedSize.Small),
-                            BackgroundColor = Color.Tan,
-                        }, x, y);
+                            label.BackgroundColor = Color.RosyBrown;
+                        }
+                        else label.BackgroundColor = Color.Tan;
+
+                        grid.Children.Add(label, x, y);
+                    }
                 }
             }
 
@@ -75,23 +102,34 @@ namespace TaskIt_2017
 
                 Children =
                 {
-                    new Label{Text = month, HorizontalOptions=LayoutOptions.Center, },
+                    new Label{Text = date, HorizontalOptions=LayoutOptions.Center, },
                     grid,
                 }
             };
         }
     
-        private Grid _grid()
+        private async Task<List<TaskItTask>> getTask(DateTime time)
         {
-            var grid = new Grid
-            {
-                RowSpacing = 40,            
-                ColumnSpacing = 40,
-                BackgroundColor = Color.Tomato,
-
-            };
-
-            return grid;
+            return await App.database.get_tasks_by_date(time);
         }
+       
+        private async void populate(Label label ,DateTime taskDate)
+        {
+            var list = new List<TaskItTask>();
+            
+            try
+            {
+                var waiter = await getTask(taskDate);
+                list = waiter;               
+            }catch(Exception e) { label.Text += e.Message; }
+          
+            foreach (var task in list)
+            {
+                label.Text += task.name + "\n";
+            }
+        }
+
+
     }
+
 }
