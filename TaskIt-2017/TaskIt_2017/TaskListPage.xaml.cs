@@ -17,6 +17,7 @@ namespace TaskIt_2017
         {
             InitializeComponent();
 
+
             Content = make_task_layout();
         }
 
@@ -24,6 +25,7 @@ namespace TaskIt_2017
         {
             tasks_lv_.ItemsSource = await App.database.get_tasks_async();
         }
+
 
         // Creates the layout for the page
         // Includes: SearchBar, ListView for tasks, Button for adding tasks
@@ -77,9 +79,11 @@ namespace TaskIt_2017
                 SearchCommand = new Command(() =>
                 {
                     DisplayAlert("Howdy!", "You searched for something! WOW!", "WOW indeed!");
+                   
                 })
-                // TODO: SearchCommand needs to eventually search for a task
-            };
+                 
+            // TODO: SearchCommand needs to eventually search for a task
+        };
         }
 
         private ViewCell make_task_vc()
