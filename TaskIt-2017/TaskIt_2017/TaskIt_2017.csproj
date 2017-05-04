@@ -41,7 +41,11 @@
     <Compile Include="CalendarPage.cs" />
     <Compile Include="IFileHelper.cs" />
     <Compile Include="TaskItTaskDatabase.cs" />
+<<<<<<< HEAD
     <Compile Include="TitlePage.cs" />
+=======
+    <Compile Include="TestPage.cs" />
+>>>>>>> 456353829dad63b7221d31f6586473ad9f79b9d3
     <Compile Include="ViewTaskPage.cs" />
     <Compile Include="TaskItTask.cs" />
     <Compile Include="TaskListPage.xaml.cs">
