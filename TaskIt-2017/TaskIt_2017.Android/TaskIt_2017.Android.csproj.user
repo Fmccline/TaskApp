@@ -3,7 +3,7 @@
   <PropertyGroup>
     <SelectedDevice>Samsung -SM-G930A</SelectedDevice>
     <DefaultDevice>VisualStudio_android-23_arm_phone</DefaultDevice>
-    <SelectedDevice>Samsung -SM-G930A</SelectedDevice>
+    <SelectedDevice>VisualStudio_android-23_x86_phone</SelectedDevice>
     <DefaultDevice>VisualStudio_android-23_x86_phone</DefaultDevice>
   </PropertyGroup>
 </Project>

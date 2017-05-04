@@ -38,18 +38,32 @@ namespace TaskIt_2017
                 HorizontalOptions = LayoutOptions.Center
             };
 
+
             calendar.Clicked += async (object sender, EventArgs args) =>
             {
                 await Navigation.PushAsync(new CalendarPage());
             };
 
+            Image myImage = new Image
+            {
+                Source = "star.png",
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+
+            };
+
+
+
             Content = new StackLayout
             {
                 Children =
                 {
+                    
                     title,                
                     task,
                     calendar,
+                    myImage,
+
                 }
             };
         }
