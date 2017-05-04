@@ -16,35 +16,32 @@ namespace TaskIt_2017
 		{
 			task_ = t;
 
-			Button delete_task_button = make_delete_task_button();
-			delete_task_button.Clicked += delete_task;
+            var layout = new StackLayout();
+            add_task_attributes_to_layout(layout);
+            add_delete_button_to_layout(layout);
 
-			Content = new StackLayout
-			{
-				Children = {
-					make_label("Name: " + task_.name),
-					make_label("Description: " + task_.description),
-					delete_task_button,
-				}
-			};
+			Content = layout;
 		}
 
-		private Label make_label(string text)
-		{
-			return new Label { Text = text };
-		}
+        private void add_task_attributes_to_layout(StackLayout layout)
+        {
+			foreach (var label in task_.get_display_labels())
+            {
+          		layout.Children.Add(label);
+            }
+        }
 
-		private Button make_delete_task_button()
+		private void add_delete_button_to_layout(StackLayout layout)
 		{
-			var return_button = new Button
+            var delete_task_button = new Button
 			{
 				Text = "Delete Task",
 				Font = Font.SystemFontOfSize(NamedSize.Medium),
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.Center,
 			};
-			return_button.Clicked += delete_task;
-			return return_button;
+			delete_task_button.Clicked += delete_task;
+            layout.Children.Add(delete_task_button);
 		}
 
 		private async void delete_task(object sender, EventArgs e)

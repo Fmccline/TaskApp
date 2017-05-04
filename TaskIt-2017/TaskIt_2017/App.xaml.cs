@@ -28,7 +28,7 @@ namespace TaskIt_2017
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new TaskListPage());
+            MainPage = new NavigationPage(new TitlePage());
         }
 
         protected override void OnStart()
