@@ -2,6 +2,7 @@
 
 using Android.App;
 using Android.Content.PM;
+using Android.Content;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -20,7 +21,12 @@ namespace TaskIt_2017.Droid
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+
+            App.InitNotification(new AndroidNotification(this));
+
             LoadApplication(new App());
+
+            Intent notifyIntent = new Intent(this, typeof(NotificationService));
         }
     }
 }
