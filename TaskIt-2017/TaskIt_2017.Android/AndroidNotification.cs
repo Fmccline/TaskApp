@@ -16,7 +16,7 @@ namespace TaskIt_2017.Droid
     class AndroidNotification : NotificationInterface
     {
         private readonly int ButtonClickNotificationId = 420;
-        NotificationManager notificationManager;
+        public NotificationManager notificationManager;
         private Context context_;
 
         public AndroidNotification(Context context)

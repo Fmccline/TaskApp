@@ -27,6 +27,7 @@ namespace TaskIt_2017.Droid
             LoadApplication(new App());
 
             Intent notifyIntent = new Intent(this, typeof(NotificationService));
+            StartService(notifyIntent);
         }
     }
 }

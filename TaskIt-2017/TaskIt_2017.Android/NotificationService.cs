@@ -13,12 +13,22 @@ using Android.Widget;
 namespace TaskIt_2017.Droid
 {
     [Service(Label = "NotificationService")]
-    public class NotificationService : Service
+    public class NotificationService : IntentService
     {
-        public override IBinder OnBind(Intent intent)
+        public NotificationService() : base("NotificationService")
         {
-            App.NotificationHandler.NotifyMessage("Service Message", "Notification service started");
-            return null;
+
+        }
+
+        protected override void OnHandleIntent(Intent intent)
+        {;
+            Console.WriteLine("Starting notification intent service");
+            Notification.Builder notificationBuilder = new Notification.Builder(this)
+             .SetSmallIcon(Resource.Drawable.star)
+             .SetContentTitle("Service message")
+             .SetContentText("Starting Intent service");
+            var notificationManager = (NotificationManager)GetSystemService(NotificationService);
+            notificationManager.Notify(421, notificationBuilder.Build());
         }
     }
 }
