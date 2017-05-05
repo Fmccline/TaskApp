@@ -12,6 +12,8 @@ namespace TaskIt_2017.iOS
     {
         public void Notify(TaskItTask task)
         {
+            if (task == null) return;
+
             UILocalNotification notification = new UILocalNotification();
             notification.FireDate = (NSDate) task.date_due;
             notification.AlertTitle = task.name;
