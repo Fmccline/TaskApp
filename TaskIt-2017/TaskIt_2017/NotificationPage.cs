@@ -10,9 +10,6 @@ namespace TaskIt_2017
 {
     public class NotificationPage : ContentPage
     {
-#if __ANDROID__
-        NotificationManager notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
-#endif
         public NotificationPage()
         {
             var notificationButton = new Button {
@@ -21,10 +18,10 @@ namespace TaskIt_2017
             };
 
             notificationButton.Clicked += async (object sender, EventArgs args) => {
-                switch(Device.RuntimePlatform)
+                switch (Device.RuntimePlatform)
                 {
                     case Device.Android:
-                        await Navigation.PushAsync(new TitlePage());
+                        App.notificationHandler.notify(null);
                         break;
 
                     case Device.iOS:
@@ -40,21 +37,5 @@ namespace TaskIt_2017
                 }
             };
         }
-
-#if __ANDROID__
-
-        private void makeNotification(TaskItTask task)
-        {
-            Notification.Builder builder = new Notification.Builder (this)
-                .SetContentTitle("Test notification")
-                .SetContentText("This is the content of the test notification")
-                .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)
-                .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm))
-                .SetSmallIcon(Resource.Drawable.ic_notification);
-
-            notificationManager.Notify (0, builder.Build());
-        }
-
-#endif
     }
 }

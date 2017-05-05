@@ -40,6 +40,7 @@
     </Compile>
     <Compile Include="CalendarPage.cs" />
     <Compile Include="IFileHelper.cs" />
+    <Compile Include="NotificationInterface.cs" />
     <Compile Include="NotificationPage.cs" />
     <Compile Include="TaskItTaskDatabase.cs" />
     <Compile Include="TitlePage.cs" />
