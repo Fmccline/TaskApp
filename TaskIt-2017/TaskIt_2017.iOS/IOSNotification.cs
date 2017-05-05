@@ -15,14 +15,20 @@ namespace TaskIt_2017.iOS
             if (task == null) return;
 
             UILocalNotification notification = new UILocalNotification();
-            if (task.date_due == null)
-                notification.FireDate = NSDate.FromTimeIntervalSinceNow(0);
-            else
-            notification.FireDate = (NSDate) task.date_due;
+			try
+			{
+				notification.FireDate = (NSDate)task.date_due;
+			}
+			catch (System.ArgumentException e)
+			{
+				return;
+			}
+			Console.WriteLine(notification.FireDate);
             notification.AlertTitle = task.name;
             notification.AlertAction = task.name;
             notification.AlertBody = task.description;
             notification.SoundName = UILocalNotification.DefaultSoundName;
+			notification.ApplicationIconBadgeNumber = 1;
             UIApplication.SharedApplication.ScheduleLocalNotification(notification);
         }
 
@@ -30,6 +36,7 @@ namespace TaskIt_2017.iOS
         {
             UILocalNotification notification = new UILocalNotification();
             notification.FireDate = NSDate.FromTimeIntervalSinceNow(0);
+			Console.WriteLine(notification.FireDate);
             notification.AlertTitle = title;
             notification.AlertAction = title;
             notification.AlertBody = message;

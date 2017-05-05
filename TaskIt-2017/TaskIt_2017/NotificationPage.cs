@@ -18,15 +18,7 @@ namespace TaskIt_2017
             };
 
             notificationButton.Clicked += async (object sender, EventArgs args) => {
-                switch (Device.RuntimePlatform)
-                {
-                    case Device.Android:
-                        App.NotificationHandler.NotifyMessage("Test", "This is a demo of Android notifications");
-                        break;
-
-                    case Device.iOS:
-                        break;
-                }
+				App.NotificationHandler.NotifyMessage("Test", "This is a demo");
             };
 
 
