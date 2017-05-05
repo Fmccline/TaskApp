@@ -12,6 +12,7 @@ namespace TaskIt_2017
     public class CalendarPage : ContentPage
     {
         Grid grid;
+
         public CalendarPage()
         {
             Title = DateTime.Now.ToString("M");
@@ -45,21 +46,12 @@ namespace TaskIt_2017
             {
                 r.Height = height / 6.5;
             }
-
         }
 
         private Grid makeCalendar()
-        {
-            int startDayOffset = 0;
+        {         
             var startDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
-            List<string> d = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
-            foreach (var ds in d)
-            {
-                if (startDay.DayOfWeek.ToString() == ds)
-                    break;
-                startDayOffset++;
-            }
-
+            int startDayOffset = calculateOffset(startDay);
             var month = DateTime.Now.Month;
             var year = DateTime.Now.Year;
             int monthLength = DateTime.DaysInMonth(year, month);
@@ -90,7 +82,6 @@ namespace TaskIt_2017
                     var label = new Label();
 
                     DateTime taskDate = startDay.AddDays(day - startDayOffset);
-
                     populateTasks(label, taskDate);
 
 
@@ -111,6 +102,21 @@ namespace TaskIt_2017
             }
 
             return grid;
+        }
+
+        private int calculateOffset(DateTime startDay)
+        {
+            int startDayOffset = 0;
+
+            List<string> d = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+            foreach (var ds in d)
+            {
+                if (startDay.DayOfWeek.ToString() == ds)
+                    break;
+                startDayOffset++;
+            }
+
+            return startDayOffset;
         }
 
         private async Task<List<TaskItTask>> getTask()
