@@ -52,6 +52,7 @@ namespace TaskIt_2017.Droid
                    .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)
                    .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm))
                    .SetSmallIcon(Resource.Drawable.star);
+            notificationManager.Notify(ButtonClickNotificationId, builder.Build());
         }
     }
 
