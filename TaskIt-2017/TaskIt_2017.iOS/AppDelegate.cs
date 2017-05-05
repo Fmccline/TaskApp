@@ -30,7 +30,31 @@ namespace TaskIt_2017.iOS
             var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null);
             UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
 
+            if (options.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
+            {
+                var localNotification = options[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
+                if(localNotification != null)
+                {
+                    HandleAlert(localNotification);
+                }
+            }
+
             return base.FinishedLaunching(app, options);
+        }
+
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            HandleAlert(notification);
+        }
+
+        private void HandleAlert(UILocalNotification notification)
+        {
+            UIAlertController alertController = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
+            alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+            UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alertController, true, null);
+
+            //Reset the badge icon
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
         }
     }
 }
