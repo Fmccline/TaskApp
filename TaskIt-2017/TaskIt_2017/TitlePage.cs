@@ -45,7 +45,17 @@ namespace TaskIt_2017
 
             };
 
+            var notification = new Button
+            {
+                Text = "Notification Test",
+                HorizontalOptions = LayoutOptions.Center
+            };
 
+
+            notification.Clicked += async (object sender, EventArgs args) =>
+            {
+                await Navigation.PushAsync(new NotificationPage());
+            };
 
             Content = new StackLayout
             {
@@ -53,6 +63,7 @@ namespace TaskIt_2017
                 {                                                     
                     task,
                     calendar,
+                    notification,
                     myImage,
                 }
             };
