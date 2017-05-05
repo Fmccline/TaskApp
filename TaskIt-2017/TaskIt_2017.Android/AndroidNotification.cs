@@ -29,19 +29,18 @@ namespace TaskIt_2017.Droid
         public void Notify(TaskItTask task)
         {
             Intent alarmIntent = new Intent(Forms.Context, typeof(NotificationAlarmReceiver));
-            if (task == null)
-                return;
-            else
-            {
-                alarmIntent.PutExtra("id", task.id);
-                alarmIntent.PutExtra("title", task.name);
-                alarmIntent.PutExtra("message", task.description);
-            }
+            if (task == null) return;
+
+            alarmIntent.PutExtra("id", task.id);
+            alarmIntent.PutExtra("title", task.name);
+            alarmIntent.PutExtra("message", task.description);
 
             PendingIntent pendingIntent = PendingIntent.GetBroadcast(Forms.Context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
             AlarmManager alarmManager = (AlarmManager)Forms.Context.GetSystemService(Context.AlarmService);
 
-            long time = (task.date_due.Ticks - DateTime.Now.Ticks) / TimeSpan.TicksPerMillisecond;
+            long time = 0;
+            if (task.date_due != null)
+                time = (task.date_due.Ticks - DateTime.Now.Ticks) / TimeSpan.TicksPerMillisecond;
             alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + time, pendingIntent);
         }
 
