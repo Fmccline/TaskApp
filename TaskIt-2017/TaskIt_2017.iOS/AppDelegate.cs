@@ -25,8 +25,10 @@ namespace TaskIt_2017.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            App.InitNotification(new IOSNotification());
             LoadApplication(new App());
 
+            //Asks for permission to send notifications
             var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null);
             UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
 
@@ -51,7 +53,7 @@ namespace TaskIt_2017.iOS
         {
             UIAlertController alertController = UIAlertController.Create(notification.AlertAction, notification.AlertBody, UIAlertControllerStyle.Alert);
             alertController.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
-            UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(alertController, true, null);
+            Window.RootViewController.PresentViewController(alertController, true, null);
 
             //Reset the badge icon
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;

@@ -18,7 +18,7 @@ namespace TaskIt_2017.iOS
             if (task.date_due == null)
                 notification.FireDate = NSDate.FromTimeIntervalSinceNow(0);
             else
-                notification.FireDate = (NSDate) task.date_due;
+            notification.FireDate = (NSDate) task.date_due;
             notification.AlertTitle = task.name;
             notification.AlertAction = task.name;
             notification.AlertBody = task.description;
