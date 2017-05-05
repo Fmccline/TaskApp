@@ -2,6 +2,7 @@
 
 using Android.App;
 using Android.Content.PM;
+using Android.Content;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -24,6 +25,8 @@ namespace TaskIt_2017.Droid
             App.InitNotification(new AndroidNotification(this));
 
             LoadApplication(new App());
+
+            Intent notifyIntent = new Intent(this, typeof(NotificationService));
         }
     }
 }

@@ -36,6 +36,16 @@ namespace TaskIt_2017.Droid
 
             notificationManager.Notify(ButtonClickNotificationId, builder.Build());
         }
+
+        public void NotifyMessage(string title, string message)
+        {
+            Notification.Builder builder = new Notification.Builder(context_)
+                   .SetContentTitle(title)
+                   .SetContentText(message)
+                   .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)
+                   .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm))
+                   .SetSmallIcon(Resource.Drawable.star);
+        }
     }
 
 }
