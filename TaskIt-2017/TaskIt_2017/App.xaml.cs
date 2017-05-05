@@ -11,7 +11,7 @@ namespace TaskIt_2017
     public partial class App : Application
     {
         static TaskItTaskDatabase database_;
-
+       
         public static TaskItTaskDatabase database
         {
             get

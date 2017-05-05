@@ -11,56 +11,69 @@ namespace TaskIt_2017
 {
     public class CalendarPage : ContentPage
     {
-
+        Grid grid;
         public CalendarPage()
         {
-            Title = "Calendar";
+            Title = DateTime.Now.ToString("M");
 
-            int startDayOffset=0;
-            var startDay = DateTime.Now.AddDays(-DateTime.Now.Day+1);
-            List<string> d = new List<string>{ "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday" };
-            foreach(var ds in d)
-            {               
+            grid = makeCalendar();
+
+            Content = new StackLayout
+            {
+                Children =
+                {
+                    grid,
+                }
+            };
+        }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+            var col = grid.ColumnDefinitions;
+            var row = grid.RowDefinitions;
+
+            grid.WidthRequest = width;
+            grid.HeightRequest = height;
+
+            foreach(var c in col)
+            {
+                c.Width = width / 7.5;
+            }
+            
+            foreach(var r in row)
+            {
+                r.Height = height / 6.5;
+            }
+
+        }
+
+        private Grid makeCalendar()
+        {
+            int startDayOffset = 0;
+            var startDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
+            List<string> d = new List<string> { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
+            foreach (var ds in d)
+            {
                 if (startDay.DayOfWeek.ToString() == ds)
                     break;
                 startDayOffset++;
             }
+
             var month = DateTime.Now.Month;
             var year = DateTime.Now.Year;
-            int monthLength = DateTime.DaysInMonth(year, month);   
-            var date = DateTime.Now.ToString("M");       
-        
+            int monthLength = DateTime.DaysInMonth(year, month);
 
-            //this needs platform screen size functions I think
-            //need to read landscape/normal view too
-            //windows default
-          //  int wid = Convert.ToInt32(CalendarPage.WidthProperty.ToString());
-          //  int hei = Convert.ToInt32(CalendarPage.HeightProperty.ToString());
-            int ht = 100, wd = 100;
-            int pad = 10, space = 5;
+            //temp sizes - see OnSizeAllocated()
+            int ht = 50, wd = 50;
+            int pad = 5, space = 2;
 
-            switch (Device.RuntimePlatform)
+            grid = new Grid
             {
-                case "Android":
-                    ht = 50;
-                    wd = 50;
-                    pad = 5;
-                    space = 2;
-                    break;                
-                default:
-                    break;
-            }
-
-            int ght = 6 * ht + 2 * pad + 5 * space, gwd = 7 * wd + 2 * pad + 6 * space;
-
-            var grid = new Grid
-            {
-                Padding = new Thickness(pad),            
+                Padding = new Thickness(pad),
                 RowSpacing = space,
                 ColumnSpacing = space,
                 BackgroundColor = Color.Tomato,
-                HeightRequest = ght,
-                WidthRequest = gwd,
                 VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.Center,
             };
@@ -76,10 +89,10 @@ namespace TaskIt_2017
                     grid.RowDefinitions.Add(new RowDefinition { Height = ht });
                     var label = new Label();
 
-                    DateTime taskDate= startDay.AddDays(day - startDayOffset);
+                    DateTime taskDate = startDay.AddDays(day - startDayOffset);
 
-                    populate(label, taskDate);
-    
+                    populateTasks(label, taskDate);
+
 
                     if (day - startDayOffset < monthLength && day >= startDayOffset)
                     {
@@ -97,36 +110,43 @@ namespace TaskIt_2017
                 }
             }
 
-            Content = new StackLayout
-            {
-
-                Children =
-                {
-                    new Label{Text = date, HorizontalOptions=LayoutOptions.Center, },
-                    grid,
-                }
-            };
+            return grid;
         }
-    
-        private async Task<List<TaskItTask>> getTask(DateTime time)
+
+        private async Task<List<TaskItTask>> getTask()
         {
-            return await App.database.get_tasks_by_date(time);
+            return await App.database.get_tasks_async();
         }
        
-        private async void populate(Label label ,DateTime taskDate)
+        private async void populateTasks(Label label, DateTime taskDate)
         {
             var list = new List<TaskItTask>();
-            
+            string desc = "";
+
             try
             {
-                var waiter = await getTask(taskDate);
+                var waiter = await getTask();
                 list = waiter;               
-            }catch(Exception e) { label.Text += e.Message; }
+            }catch(Exception e) { label.Text += "error"; desc = e.Message; }
           
             foreach (var task in list)
             {
-                label.Text += task.name + "\n";
+                if (task.date_due.Date == taskDate.Date)
+                {
+                    label.Text += task.name + "\n";
+                    desc += task.description + "\n";
+                }
             }
+
+            var tap = new TapGestureRecognizer();
+            tap.Tapped += async (object sender, EventArgs args) =>
+              {
+                  await DisplayAlert(taskDate.ToString("M"), desc, "OK");
+              };
+
+            if (desc != "")
+                label.GestureRecognizers.Add(tap);
+           
         }
 
 

@@ -25,12 +25,7 @@ namespace TaskIt_2017
         public Task<List<TaskItTask>> get_tasks_by_search(string i)
         {
             return database.QueryAsync<TaskItTask>("SELECT * FROM [TaskItTask] WHERE [name] = "+i);
-        }
-
-        public Task<List<TaskItTask>> get_tasks_by_date(DateTime i)
-        {
-            return database.QueryAsync<TaskItTask>("SELECT * FROM [TaskItTask] WHERE [date_due] = " + i); 
-        }      
+        } 
 
         public Task<List<TaskItTask>> get_tasks_not_done_async()
         {

@@ -12,15 +12,8 @@ namespace TaskIt_2017
     {
         public TitlePage()
         {
-
-            var title = new Label
-            {
-                Text = "TaskIt",            
-                Font = Font.SystemFontOfSize(NamedSize.Large),
-                Margin = new Thickness(40.0),
-                HorizontalOptions = LayoutOptions.Center
-            };
-        
+            Title = "TaskIt";
+           
             var task = new Button
             {
                 Text = "Task List Page",
@@ -57,13 +50,10 @@ namespace TaskIt_2017
             Content = new StackLayout
             {
                 Children =
-                {
-                    
-                    title,                
+                {                                                     
                     task,
                     calendar,
                     myImage,
-
                 }
             };
         }
