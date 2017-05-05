@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Xamarin.Forms;
 
 namespace TaskIt_2017.Droid
 {
@@ -27,14 +28,21 @@ namespace TaskIt_2017.Droid
 
         public void Notify(TaskItTask task)
         {
-            Notification.Builder builder = new Notification.Builder(context_)
-                   .SetContentTitle("Test notification")
-                   .SetContentText("This is the content of the test notification")
-                   .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)
-                   .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Alarm))
-                   .SetSmallIcon(Resource.Drawable.star);
+            Intent alarmIntent = new Intent(Forms.Context, typeof(NotificationAlarmReceiver));
+            if (task == null)
+                return;
+            else
+            {
+                alarmIntent.PutExtra("id", task.id);
+                alarmIntent.PutExtra("title", task.name);
+                alarmIntent.PutExtra("message", task.description);
+            }
 
-            notificationManager.Notify(ButtonClickNotificationId, builder.Build());
+            PendingIntent pendingIntent = PendingIntent.GetBroadcast(Forms.Context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+            AlarmManager alarmManager = (AlarmManager)Forms.Context.GetSystemService(Context.AlarmService);
+
+            long time = (task.date_due.Ticks - DateTime.Now.Ticks) / TimeSpan.TicksPerMillisecond;
+            alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + time, pendingIntent);
         }
 
         public void NotifyMessage(string title, string message)

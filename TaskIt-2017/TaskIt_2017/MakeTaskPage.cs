@@ -166,6 +166,7 @@ namespace TaskIt_2017
                 set_task(new_task);
 
                 await App.database.save_task_async(new_task);
+                App.NotificationHandler.Notify(new_task);
                 await DisplayAlert("Task Added", "The task has been created!", "Right on!");
             }
             else
