@@ -25,7 +25,7 @@ namespace TaskIt_2017.Droid
             notificationManager = context_.GetSystemService(Context.NotificationService) as NotificationManager;
         }
 
-        public void notify(TaskItTask task)
+        public void Notify(TaskItTask task)
         {
             Notification.Builder builder = new Notification.Builder(context_)
                    .SetContentTitle("Test notification")

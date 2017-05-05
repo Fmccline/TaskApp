@@ -11,7 +11,7 @@ namespace TaskIt_2017
     public partial class App : Application
     {
         static TaskItTaskDatabase database_;
-        public static NotificationInterface notificationHandler;
+        public static NotificationInterface NotificationHandler;
        
         public static TaskItTaskDatabase database
         {
@@ -27,7 +27,7 @@ namespace TaskIt_2017
 
         public static void InitNotification(NotificationInterface NI)
         {
-            App.notificationHandler = NI;
+            App.NotificationHandler = NI;
         }
 
         public App()

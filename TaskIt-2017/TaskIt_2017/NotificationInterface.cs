@@ -8,6 +8,6 @@ namespace TaskIt_2017
 {
     public interface NotificationInterface
     {
-        void notify(TaskItTask task);
+        void Notify(TaskItTask task);
     }
 }

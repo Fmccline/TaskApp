@@ -21,7 +21,7 @@ namespace TaskIt_2017
                 switch (Device.RuntimePlatform)
                 {
                     case Device.Android:
-                        App.notificationHandler.notify(null);
+                        App.NotificationHandler.Notify(null);
                         break;
 
                     case Device.iOS:
