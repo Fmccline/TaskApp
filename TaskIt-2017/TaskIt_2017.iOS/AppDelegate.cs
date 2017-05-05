@@ -25,19 +25,22 @@ namespace TaskIt_2017.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+			App.InitNotification(new IOSNotification());
             LoadApplication(new App());
 
             var settings = UIUserNotificationSettings.GetSettingsForTypes(UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound, null);
             UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
-
-            if (options.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
-            {
-                var localNotification = options[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
-                if(localNotification != null)
-                {
-                    HandleAlert(localNotification);
-                }
-            }
+			if (options != null)
+			{
+				if (options.ContainsKey(UIApplication.LaunchOptionsLocalNotificationKey))
+				{
+					var localNotification = options[UIApplication.LaunchOptionsLocalNotificationKey] as UILocalNotification;
+					if (localNotification != null)
+					{
+						HandleAlert(localNotification);
+					}
+				}
+			}
 
             return base.FinishedLaunching(app, options);
         }
