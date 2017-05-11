@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -10,43 +10,43 @@ namespace TaskIt_2017
 {
 	public class ViewTaskPage : ContentPage
 	{
-		private TaskItTask task_;
+		private TaskItTask task;
 
 		public ViewTaskPage(TaskItTask t)
 		{
-			task_ = t;
+			task = t;
 
             var layout = new StackLayout();
-            add_task_attributes_to_layout(layout);
-            add_delete_button_to_layout(layout);
+			AddTaskAttributesToLayout(layout);
+			AddDeleteButtonToLayout(layout);
 
 			Content = layout;
 		}
 
-        private void add_task_attributes_to_layout(StackLayout layout)
+        private void AddTaskAttributesToLayout(StackLayout layout)
         {
-			foreach (var label in task_.get_display_labels())
+			foreach (var label in task.GetDisplayLabels())
             {
           		layout.Children.Add(label);
             }
         }
 
-		private void add_delete_button_to_layout(StackLayout layout)
+		private void AddDeleteButtonToLayout(StackLayout layout)
 		{
-            var delete_task_button = new Button
+			var deleteTaskButton = new Button
 			{
 				Text = "Delete Task",
 				Font = Font.SystemFontOfSize(NamedSize.Medium),
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.Center,
 			};
-			delete_task_button.Clicked += delete_task;
-            layout.Children.Add(delete_task_button);
+			deleteTaskButton.Clicked += DeleteTask;
+            layout.Children.Add(deleteTaskButton);
 		}
 
-		private async void delete_task(object sender, EventArgs e)
+		private async void DeleteTask(object sender, EventArgs e)
 		{
-			await App.database.delete_task_async(task_);
+			await App.Database.DeleteTaskAsync(task);
 			await Navigation.PopAsync();
 		}
 	}

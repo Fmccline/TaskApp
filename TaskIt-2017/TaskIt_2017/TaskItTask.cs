@@ -10,68 +10,64 @@ namespace TaskIt_2017
 	{
 		public TaskItTask()
 		{
-			date_created = DateTime.Now;
+			DateCreated = DateTime.Now;
 		}
 
-		public List<Label> get_display_labels()
+		public List<Label> GetDisplayLabels()
 		{
 			var displays = new List<Label>();
 
-			displays.Add(make_bold_label("Name"));
-			displays.Add(make_label(name));
+			displays.Add(MakeBoldLabel("Name"));
+			displays.Add(MakeLabel(Name));
 
-			displays.Add(make_bold_label("Description"));
-			displays.Add(make_label(description));
+			displays.Add(MakeBoldLabel("Description"));
+			displays.Add(MakeLabel(Description));
 
-			displays.Add(make_bold_label("Date Created"));
-            displays.Add(make_label(get_date_string(date_created)));
+			displays.Add(MakeBoldLabel("Date Created"));
+            displays.Add(MakeLabel(DateTimeToString(DateCreated)));
 
-            if (date_due != DateTime.MinValue)
+            if (DueDate != DateTime.MinValue)
 			{
-				displays.Add(make_bold_label("Date Due"));
-				displays.Add(make_label(get_date_string(date_due)));
+				displays.Add(MakeBoldLabel("Date Due"));
+				displays.Add(MakeLabel(DateTimeToString(DueDate)));
 			}
 
 			return displays;
 		}
 
-        private string get_date_string(DateTime date)
+        private string DateTimeToString(DateTime date)
         {
             string day = date.Day.ToString();
             string year = (date.Year != DateTime.Now.Year) ? ", " + date.Year.ToString() : "";
             string month = CultureInfo.CurrentCulture.
                             DateTimeFormat.GetMonthName(date.Month);
-            string date_string = month + " " + day + year;
+			string dateString = month + " " + day + year;
 
             string hour = date.Hour.ToString();
             string minute = date.Minute >= 10 ? date.Minute.ToString() : "0" + date.Minute.ToString();
             string time = hour + ":" + minute;
 
-            return time + " " + date_string;
+            return time + " " + dateString;
         }
 
-		private Label make_bold_label(string text)
+		private Label MakeBoldLabel(string text)
 		{
 			return new Label { Text = text, FontAttributes = FontAttributes.Bold };
 		}
 
-		private Label make_label(string text)
+		private Label MakeLabel(string text)
 		{
 			return new Label { Text = text };
 		}
 
-		private KeyValuePair<string, string> make_kvp_s(string key, string value)
-		{
-			return new KeyValuePair<string,string>(key,value);
-		}
 
         [PrimaryKey, AutoIncrement]
-        public int id { get; set; }
-        public string name { get; set; }
-        public string description { get; set; }
-        public bool complete { get; set; }
-        public DateTime date_created { get; }
-        public DateTime date_due { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+		public bool Complete { get; set; }
+		public DateTime DateCreated { get; }
+        public DateTime DueDate { get; set; }
 
     }
 }

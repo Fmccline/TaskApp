@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,16 +17,16 @@ namespace TaskIt_2017.iOS
             UILocalNotification notification = new UILocalNotification();
 			try
 			{
-				notification.FireDate = (NSDate)task.date_due;
+				notification.FireDate = (NSDate)task.DueDate;
 			}
 			catch (System.ArgumentException e)
 			{
 				return;
 			}
 			Console.WriteLine(notification.FireDate);
-            notification.AlertTitle = task.name;
-            notification.AlertAction = task.name;
-            notification.AlertBody = task.description;
+            notification.AlertTitle = task.Name;
+            notification.AlertAction = task.Name;
+            notification.AlertBody = task.Description;
             notification.SoundName = UILocalNotification.DefaultSoundName;
 			notification.ApplicationIconBadgeNumber = 1;
             UIApplication.SharedApplication.ScheduleLocalNotification(notification);

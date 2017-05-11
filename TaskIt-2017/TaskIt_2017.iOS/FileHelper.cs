@@ -9,17 +9,17 @@ namespace TaskIt_2017.iOS
 {
     class FileHelper : IFileHelper
     {
-        public string get_local_file_path(string filename)
+		public string GetLocalFilePath(string filename)
         {
-            string doc_folder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            string lib_folder = Path.Combine(doc_folder, "..", "Library", "Databases");
+			string docFolder = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			string libFolder = Path.Combine(docFolder, "..", "Library", "Databases");
 
-            if (!Directory.Exists(lib_folder))
+            if (!Directory.Exists(libFolder))
             {
-                Directory.CreateDirectory(lib_folder);
+                Directory.CreateDirectory(libFolder);
             }
 
-            return Path.Combine(lib_folder, filename);
+            return Path.Combine(libFolder, filename);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,67 +11,66 @@ namespace TaskIt_2017
 {
     public partial class TaskListPage : ContentPage
     {
-        private ListView tasks_lv_;
+		private ListView tasksListView;
 
         public TaskListPage()
         {
             InitializeComponent();
 
-
-            Content = make_task_layout();
+			Content = MakeTaskLayout();
         }
 
         protected override async void OnAppearing()
         {
-            tasks_lv_.ItemsSource = await App.database.get_tasks_async();
+            tasksListView.ItemsSource = await App.Database.GetTasksAsync();
         }
 
 
         // Creates the layout for the page
         // Includes: SearchBar, ListView for tasks, Button for adding tasks
-        private StackLayout make_task_layout()
+        private StackLayout MakeTaskLayout()
         {
-            StackLayout stack_layout = new StackLayout
+			StackLayout stackLayout = new StackLayout
             {
                 Orientation = StackOrientation.Vertical,
                 Children =
                 {
-                    make_search_bar(),
-                    make_tasks_lv(),
-                    make_add_task_button(),
+					MakeSearchBar(),
+					MakeTasksListView(),
+					MakeAddTaskButton(),
                 }
             };
 
-            return stack_layout;
+            return stackLayout;
         }
     
-        private ListView make_tasks_lv()
+        private ListView MakeTasksListView()
         {       
-            tasks_lv_ = new ListView();
-            tasks_lv_.ItemTemplate = new DataTemplate(make_task_vc);
-            tasks_lv_.ItemSelected += async (sender, e) =>
+            tasksListView = new ListView();
+            tasksListView.ItemTemplate = new DataTemplate(MakeTaskViewCell);
+            tasksListView.ItemSelected += async (sender, e) =>
             {
-                TaskItTask selected_task = (TaskItTask)e.SelectedItem;
-                await Navigation.PushAsync(new ViewTaskPage(selected_task));
+				TaskItTask selectedTask = (TaskItTask)e.SelectedItem;
+                await Navigation.PushAsync(new ViewTaskPage(selectedTask));
             };
 
-            return tasks_lv_;
+            return tasksListView;
         }
 
-        private Button make_add_task_button()
+        private Button MakeAddTaskButton()
         {
-            Button return_button = new Button
+            Button addTaskButton = new Button
             {
                 Text = "Add Task",
                 Font = Font.SystemFontOfSize(NamedSize.Medium),
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
             };
-            return_button.Clicked += add_task_button_clicked;
-            return return_button;
+			addTaskButton.Clicked += AddTaskButtonClicked;
+            return addTaskButton;
         }
 
-        private SearchBar make_search_bar()
+        private SearchBar MakeSearchBar()
         {
             return new SearchBar
             {
@@ -83,19 +82,19 @@ namespace TaskIt_2017
                 })
                  
             // TODO: SearchCommand needs to eventually search for a task
-        };
+        	};
         }
 
-        private ViewCell make_task_vc()
+		private ViewCell MakeTaskViewCell()
         {
-            Label task_name = new Label();
-            task_name.SetBinding(Label.TextProperty, "name");
-            task_name.HorizontalTextAlignment = TextAlignment.Center;
+			Label taskName = new Label();
+            taskName.SetBinding(Label.TextProperty, "name");
+            taskName.HorizontalTextAlignment = TextAlignment.Center;
 
-            return new ViewCell { View = new ContentView { Content = task_name } };
+            return new ViewCell { View = new ContentView { Content = taskName } };
         }
 
-        private async void add_task_button_clicked(object sender, EventArgs e)
+        private async void AddTaskButtonClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new MakeTaskPage());
         }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -11,40 +11,40 @@ namespace TaskIt_2017
 {
 	public class MakeTaskPage : ContentPage
 	{
-		private StackLayout main_layout_;
-		private StackLayout due_date_layout_;
-        private StackLayout description_layout_;
+		private StackLayout mainLayout;
+		private StackLayout dueDateLayout;
+		private StackLayout descriptionLayout;
 
-		private Entry name_entry_;
-		private Editor description_entry_;
-		private DatePicker due_date_entry_;
-		private TimePicker due_time_entry_;
+		private Entry nameEntry;
+		private Editor descriptionEntry;
+		private DatePicker dueDateEntry;
+		private TimePicker dueTimeEntry;
 
-		private Switch due_date_switch_;
+		private Switch dueDateSwitch;
 
 		public MakeTaskPage()
 		{
-			main_layout_ = new StackLayout();
+			mainLayout = new StackLayout();
 
-			name_entry_ = make_entry("Task Name");
-            description_entry_ = new Editor();
+			nameEntry = MakeEntry("Task Name");
+            descriptionEntry = new Editor();
 
-            due_date_switch_ = make_due_date_switch();
-			due_date_entry_ = make_due_date();
-			due_time_entry_ = make_due_time();
+			dueDateSwitch = MakeDueDateSwitch();
+			dueDateEntry = MakeDueDate();
+			dueTimeEntry = MakeDueTime();
 
-            description_layout_ = make_description_layout();
-			due_date_layout_ = make_due_date_layout();
+			descriptionLayout = MakeDescriptionLayout();
+			dueDateLayout = MakeDueDateLayout();
 
-			main_layout_.Children.Add(name_entry_);
-			main_layout_.Children.Add(description_layout_);
-			main_layout_.Children.Add(due_date_layout_);
-			main_layout_.Children.Add(make_add_task_button());
+			mainLayout.Children.Add(nameEntry);
+			mainLayout.Children.Add(descriptionLayout);
+			mainLayout.Children.Add(dueDateLayout);
+			mainLayout.Children.Add(MakeAddTaskButton());
 
-			Content = main_layout_;
+			Content = mainLayout;
 		}
 
-        private StackLayout make_description_layout()
+        private StackLayout MakeDescriptionLayout()
         {
             return new StackLayout
             {
@@ -55,12 +55,12 @@ namespace TaskIt_2017
                         Text = "Description",
                         FontAttributes = FontAttributes.Bold
                     },
-                    description_entry_,
+                    descriptionEntry,
                 }
             };
         }
 
-		private StackLayout make_due_date_layout()
+		private StackLayout MakeDueDateLayout()
 		{
 			return new StackLayout
 			{
@@ -72,36 +72,36 @@ namespace TaskIt_2017
 						Children =
 						{
 							new Label {Text = "Has Due Date"},
-							due_date_switch_,
+							dueDateSwitch,
 						}
 					}
 				}
 			};
 		}
 
-		private void toggle_add_due_date(object sender, ToggledEventArgs e)
+		private void ToggleAddDueDate(object sender, ToggledEventArgs e)
 		{
 			if (e.Value)
 			{
-				due_date_layout_.Children.Add(due_date_entry_);
-				due_date_layout_.Children.Add(due_time_entry_);
+				dueDateLayout.Children.Add(dueDateEntry);
+				dueDateLayout.Children.Add(dueTimeEntry);
 			}
 			else
 			{
-				due_date_layout_.Children.Remove(due_date_entry_);
-				due_date_layout_.Children.Remove(due_time_entry_);
+				dueDateLayout.Children.Remove(dueDateEntry);
+				dueDateLayout.Children.Remove(dueTimeEntry);
 			}
 		}
 
-		private Switch make_due_date_switch()
+		private Switch MakeDueDateSwitch()
 		{
-			var due_date_switch = new Switch();
-			due_date_switch.IsToggled = false;
-			due_date_switch.Toggled += toggle_add_due_date;
-			return due_date_switch;
+			var dueDateSwitch = new Switch();
+			dueDateSwitch.IsToggled = false;
+			dueDateSwitch.Toggled += ToggleAddDueDate;
+			return dueDateSwitch;
 		}
 
-		private DatePicker make_due_date()
+		private DatePicker MakeDueDate()
 		{
 			return new DatePicker
 			{
@@ -110,7 +110,7 @@ namespace TaskIt_2017
 			};
 		}
 
-		private TimePicker make_due_time()
+		private TimePicker MakeDueTime()
 		{
             return new TimePicker
             {
@@ -118,7 +118,7 @@ namespace TaskIt_2017
 			};
 		}
 
-		private Entry make_entry(string placeholder)
+		private Entry MakeEntry(string placeholder)
 		{
 			return new Entry
 			{
@@ -126,47 +126,45 @@ namespace TaskIt_2017
 			};
 		}
 
-		private Button make_add_task_button()
+		private Button MakeAddTaskButton()
 		{
-			Button return_button = new Button
+			Button returnButton = new Button
 			{
 				Text = "Add Task",
 				Font = Font.SystemFontOfSize(NamedSize.Medium),
 				HorizontalOptions = LayoutOptions.Center,
 				VerticalOptions = LayoutOptions.Center,
 			};
-			return_button.Clicked += add_task_button_clicked;
-			return return_button;
+			returnButton.Clicked += AddTaskButtonClicked;
+			return returnButton;
 		}
 
-        // set_task
         // Set a TaskItTask to the entry name, 
         // possible description, and possible due date
-        private void set_task(TaskItTask task)
+		private void SetTask(TaskItTask task)
         {
-            task.name = name_entry_.Text;
-            if (!String.IsNullOrEmpty(description_entry_.Text))
+            task.Name = nameEntry.Text;
+            if (!String.IsNullOrEmpty(descriptionEntry.Text))
             {
-                task.description = description_entry_.Text;
+                task.Description = descriptionEntry.Text;
             }
-            if (due_date_switch_.IsToggled)
+            if (dueDateSwitch.IsToggled)
             {
-                task.date_due = due_date_entry_.Date + due_time_entry_.Time;
+                task.DueDate = dueDateEntry.Date + dueTimeEntry.Time;
             }
         }
 
-        // add_task_button_clicked
         // If the task has a name: create a new task, add it to the database
         // Otherwise: display an alert asking to name the task
-		private async void add_task_button_clicked(object sender, EventArgs e)
+		private async void AddTaskButtonClicked(object sender, EventArgs e)
 		{
-            if (!String.IsNullOrEmpty(name_entry_.Text))
+            if (!String.IsNullOrEmpty(nameEntry.Text))
             {
-                TaskItTask new_task = new TaskItTask();
-                set_task(new_task);
+				TaskItTask newTask = new TaskItTask();
+                SetTask(newTask);
 
-                await App.database.save_task_async(new_task);
-                App.NotificationHandler.Notify(new_task);
+                await App.Database.SaveTaskAsync(newTask);
+                App.NotificationHandler.Notify(newTask);
                 await DisplayAlert("Task Added", "The task has been created!", "Right on!");
             }
             else

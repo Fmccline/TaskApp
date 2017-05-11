@@ -8,7 +8,7 @@ namespace TaskIt_2017.Droid
 {
     class FileHelper : IFileHelper
     {
-        public string get_local_file_path(string filename)
+		public string GetLocalFilePath(string filename)
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             return Path.Combine(path, filename);

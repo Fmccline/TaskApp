@@ -10,18 +10,18 @@ namespace TaskIt_2017
 {
     public partial class App : Application
     {
-        static TaskItTaskDatabase database_;
+		private static TaskItTaskDatabase database;
         public static NotificationInterface NotificationHandler;
-       
-        public static TaskItTaskDatabase database
+
+		public static TaskItTaskDatabase Database
         {
             get
             {
-                if (database_ == null)
+                if (database == null)
                 {
-                    database_ = new TaskItTaskDatabase(DependencyService.Get<IFileHelper>().get_local_file_path("TaskItSQLite.db3"));
+                    database = new TaskItTaskDatabase(DependencyService.Get<IFileHelper>().GetLocalFilePath("TaskItSQLite.db3"));
                 }
-                return database_;
+                return database;
             }
         }
 

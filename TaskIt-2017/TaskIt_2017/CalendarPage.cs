@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
@@ -11,13 +11,13 @@ namespace TaskIt_2017
 {
     public class CalendarPage : ContentPage
     {
-        Grid grid;
+        private Grid grid;
 
         public CalendarPage()
         {
             Title = DateTime.Now.ToString("M");
 
-            grid = makeCalendar();
+			grid = MakeCalendar();
 
             Content = new StackLayout
             {
@@ -48,10 +48,10 @@ namespace TaskIt_2017
             }
         }
 
-        private Grid makeCalendar()
+        private Grid MakeCalendar()
         {         
             var startDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
-            int startDayOffset = calculateOffset(startDay);
+			int startDayOffset = CalculateOffset(startDay);
             var month = DateTime.Now.Month;
             var year = DateTime.Now.Year;
             int monthLength = DateTime.DaysInMonth(year, month);
@@ -82,13 +82,13 @@ namespace TaskIt_2017
                     var label = new Label();
 
                     DateTime taskDate = startDay.AddDays(day - startDayOffset);
-                    populateTasks(label, taskDate);
+                    PopulateTasks(label, taskDate);
 
 
                     if (day - startDayOffset < monthLength && day >= startDayOffset)
                     {
                         label.Text = (day - startDayOffset + 1).ToString() + "\n";
-                        label.Font = Font.SystemFontOfSize(NamedSize.Micro);
+						label.Font = Font.SystemFontOfSize(NamedSize.Micro);
 
                         if (day == DateTime.Now.Day)
                         {
@@ -104,7 +104,7 @@ namespace TaskIt_2017
             return grid;
         }
 
-        private int calculateOffset(DateTime startDay)
+        private int CalculateOffset(DateTime startDay)
         {
             int startDayOffset = 0;
 
@@ -119,28 +119,28 @@ namespace TaskIt_2017
             return startDayOffset;
         }
 
-        private async Task<List<TaskItTask>> getTask()
+		private async Task<List<TaskItTask>> GetTasks()
         {
-            return await App.database.get_tasks_async();
+            return await App.Database.GetTasksAsync();
         }
        
-        private async void populateTasks(Label label, DateTime taskDate)
+		private async void PopulateTasks(Label label, DateTime taskDate)
         {
             var list = new List<TaskItTask>();
             string desc = "";
 
             try
             {
-                var waiter = await getTask();
+                var waiter = await GetTasks();
                 list = waiter;               
             }catch(Exception e) { label.Text += "error"; desc = e.Message; }
           
             foreach (var task in list)
             {
-                if (task.date_due.Date == taskDate.Date)
+                if (task.DueDate.Date == taskDate.Date)
                 {
-                    label.Text += task.name + "\n";
-                    desc += task.description + "\n";
+                    label.Text += task.Name + "\n";
+                    desc += task.Description + "\n";
                 }
             }
 

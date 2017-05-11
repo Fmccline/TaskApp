@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +18,12 @@ namespace TaskIt_2017.Droid
     {
         private readonly int ButtonClickNotificationId = 420;
         public NotificationManager notificationManager;
-        private Context context_;
+		private Context context;
 
-        public AndroidNotification(Context context)
+        public AndroidNotification(Context c)
         {
-            context_ = context;
-            notificationManager = context_.GetSystemService(Context.NotificationService) as NotificationManager;
+            context = c;
+            notificationManager = context.GetSystemService(Context.NotificationService) as NotificationManager;
         }
 
         public void Notify(TaskItTask task)
@@ -31,22 +31,22 @@ namespace TaskIt_2017.Droid
             Intent alarmIntent = new Intent(Forms.Context, typeof(NotificationAlarmReceiver));
             if (task == null) return;
 
-            alarmIntent.PutExtra("id", task.id);
-            alarmIntent.PutExtra("title", task.name);
-            alarmIntent.PutExtra("message", task.description);
+            alarmIntent.PutExtra("id", task.Id);
+            alarmIntent.PutExtra("title", task.Name);
+            alarmIntent.PutExtra("message", task.Description);
 
             PendingIntent pendingIntent = PendingIntent.GetBroadcast(Forms.Context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
             AlarmManager alarmManager = (AlarmManager)Forms.Context.GetSystemService(Context.AlarmService);
 
             long time = 0;
-            if (task.date_due != null)
-                time = (task.date_due.Ticks - DateTime.Now.Ticks) / TimeSpan.TicksPerMillisecond;
+            if (task.DueDate != null)
+                time = (task.DueDate.Ticks - DateTime.Now.Ticks) / TimeSpan.TicksPerMillisecond;
             alarmManager.Set(AlarmType.ElapsedRealtime, SystemClock.ElapsedRealtime() + time, pendingIntent);
         }
 
         public void NotifyMessage(string title, string message)
         {
-            Notification.Builder builder = new Notification.Builder(context_)
+            Notification.Builder builder = new Notification.Builder(context)
                    .SetContentTitle(title)
                    .SetContentText(message)
                    .SetDefaults(NotificationDefaults.Sound | NotificationDefaults.Vibrate)

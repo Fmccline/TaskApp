@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,29 +17,29 @@ namespace TaskIt_2017
             database.CreateTableAsync<TaskItTask>().Wait();
         }
 
-        public Task<List<TaskItTask>> get_tasks_async()
+        public Task<List<TaskItTask>> GetTasksAsync()
         {
             return database.Table<TaskItTask>().ToListAsync();
         }
 
-        public Task<List<TaskItTask>> get_tasks_by_search(string i)
+		public Task<List<TaskItTask>> GetTasksBySearch(string i)
         {
             return database.QueryAsync<TaskItTask>("SELECT * FROM [TaskItTask] WHERE [name] = "+i);
         } 
 
-        public Task<List<TaskItTask>> get_tasks_not_done_async()
+		public Task<List<TaskItTask>> GetTasksNotDoneAsync()
         {
             return database.QueryAsync<TaskItTask>("SELECT * FROM [TaskItTask] WHERE [complete] = 0");
         }
 
-        public Task<TaskItTask> get_task_async(int ID)
+		public Task<TaskItTask> GetTaskAsync(int ID)
         {
-            return database.Table<TaskItTask>().Where(i => i.id == ID).FirstOrDefaultAsync();
+            return database.Table<TaskItTask>().Where(i => i.Id == ID).FirstOrDefaultAsync();
         }
 
-        public Task<int> save_task_async(TaskItTask task)
+        public Task<int> SaveTaskAsync(TaskItTask task)
         {
-            if (task.id != 0)
+            if (task.Id != 0)
             {
                 return database.UpdateAsync(task);
             }
@@ -49,7 +49,7 @@ namespace TaskIt_2017
             }
         }
 
-        public Task<int> delete_task_async(TaskItTask task)
+        public Task<int> DeleteTaskAsync(TaskItTask task)
         {
             return database.DeleteAsync(task);
         }
