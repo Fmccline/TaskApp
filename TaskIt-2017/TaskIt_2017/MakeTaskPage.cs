@@ -15,28 +15,21 @@ namespace TaskIt_2017
 		private StackLayout dueDateLayout;
 		private StackLayout descriptionLayout;
 
-		private Entry nameEntry;
-		private Editor descriptionEntry;
-		private DatePicker dueDateEntry;
-		private TimePicker dueTimeEntry;
+		private TaskItTaskEntries taskEntries;
 
-		private Switch dueDateSwitch;
+		private Switch returnSwitch;
 
 		public MakeTaskPage()
 		{
 			mainLayout = new StackLayout();
+			taskEntries = new TaskItTaskEntries();
 
-			nameEntry = MakeEntry("Task Name");
-            descriptionEntry = new Editor();
-
-			dueDateSwitch = MakeDueDateSwitch();
-			dueDateEntry = MakeDueDate();
-			dueTimeEntry = MakeDueTime();
+			returnSwitch = MakeDueDateSwitch();
 
 			descriptionLayout = MakeDescriptionLayout();
-			dueDateLayout = MakeDueDateLayout();
+			dueDateLayout = MakeHasDueDateLayout();
 
-			mainLayout.Children.Add(nameEntry);
+			mainLayout.Children.Add(taskEntries.Name);
 			mainLayout.Children.Add(descriptionLayout);
 			mainLayout.Children.Add(dueDateLayout);
 			mainLayout.Children.Add(MakeAddTaskButton());
@@ -55,12 +48,12 @@ namespace TaskIt_2017
                         Text = "Description",
                         FontAttributes = FontAttributes.Bold
                     },
-                    descriptionEntry,
+					taskEntries.Description,
                 }
             };
         }
 
-		private StackLayout MakeDueDateLayout()
+		private StackLayout MakeHasDueDateLayout()
 		{
 			return new StackLayout
 			{
@@ -72,7 +65,7 @@ namespace TaskIt_2017
 						Children =
 						{
 							new Label {Text = "Has Due Date"},
-							dueDateSwitch,
+							returnSwitch,
 						}
 					}
 				}
@@ -83,47 +76,22 @@ namespace TaskIt_2017
 		{
 			if (e.Value)
 			{
-				dueDateLayout.Children.Add(dueDateEntry);
-				dueDateLayout.Children.Add(dueTimeEntry);
+				dueDateLayout.Children.Add(taskEntries.DueDate);
+				dueDateLayout.Children.Add(taskEntries.DueTime);
 			}
 			else
 			{
-				dueDateLayout.Children.Remove(dueDateEntry);
-				dueDateLayout.Children.Remove(dueTimeEntry);
+				dueDateLayout.Children.Remove(taskEntries.DueDate);
+				dueDateLayout.Children.Remove(taskEntries.DueTime);
 			}
 		}
 
 		private Switch MakeDueDateSwitch()
 		{
-			var dueDateSwitch = new Switch();
-			dueDateSwitch.IsToggled = false;
-			dueDateSwitch.Toggled += ToggleAddDueDate;
-			return dueDateSwitch;
-		}
-
-		private DatePicker MakeDueDate()
-		{
-			return new DatePicker
-			{
-				Date = DateTime.Now,
-				MinimumDate = DateTime.Now,
-			};
-		}
-
-		private TimePicker MakeDueTime()
-		{
-            return new TimePicker
-            {
-                Time = new TimeSpan(6, 0, 0),
-			};
-		}
-
-		private Entry MakeEntry(string placeholder)
-		{
-			return new Entry
-			{
-				Placeholder = placeholder
-			};
+			var returnSwitch = new Switch();
+			returnSwitch.IsToggled = false;
+			returnSwitch.Toggled += ToggleAddDueDate;
+			return returnSwitch;
 		}
 
 		private Button MakeAddTaskButton()
@@ -143,14 +111,14 @@ namespace TaskIt_2017
         // possible description, and possible due date
 		private void SetTask(TaskItTask task)
         {
-            task.Name = nameEntry.Text;
-            if (!String.IsNullOrEmpty(descriptionEntry.Text))
+			task.Name = taskEntries.Name.Text;
+			if (!String.IsNullOrEmpty(taskEntries.Description.Text))
             {
-                task.Description = descriptionEntry.Text;
+				task.Description = taskEntries.Description.Text;
             }
-            if (dueDateSwitch.IsToggled)
+            if (returnSwitch.IsToggled)
             {
-                task.DueDate = dueDateEntry.Date + dueTimeEntry.Time;
+				task.DueDate = taskEntries.DueDate.Date + taskEntries.DueTime.Time;
             }
         }
 
@@ -158,7 +126,7 @@ namespace TaskIt_2017
         // Otherwise: display an alert asking to name the task
 		private async void AddTaskButtonClicked(object sender, EventArgs e)
 		{
-            if (!String.IsNullOrEmpty(nameEntry.Text))
+			if (!String.IsNullOrEmpty(taskEntries.Name.Text))
             {
 				TaskItTask newTask = new TaskItTask();
                 SetTask(newTask);

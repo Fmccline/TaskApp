@@ -51,6 +51,7 @@
     </Compile>
     <Compile Include="MakeTaskPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaskItTaskEntries.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TaskListPage.xaml">

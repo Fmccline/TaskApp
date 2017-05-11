@@ -163,7 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaskIt_2017\TaskIt_2017.csproj">
-      <Project>{b929ff5f-2d5f-4fcd-8a79-f6dde66ccada}</Project>
+      <Project>{6B277289-3F6A-460C-A2FE-172CB1683167}</Project>
       <Name>TaskIt_2017</Name>
     </ProjectReference>
   </ItemGroup>
